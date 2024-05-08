@@ -143,6 +143,36 @@ local function Tracer()
     end)
 end
 
+
+local function createESPBoxForObject(object, color)
+    local box = Instance.new("BoxHandleAdornment") -- Create a BoxHandleAdornment for the box
+    box.Size = object.Size -- Set the size of the box to match the object
+    box.Color3 = color -- Set the color of the box
+    box.Transparency = 0.5 -- Set the transparency of the box
+    box.Adornee = object -- Attach the box to the specified object
+    box.AlwaysOnTop = true -- Ensure the box is always visible
+    box.ZIndex = 5 -- Set the ZIndex to ensure the box appears above other parts
+    box.Parent = object -- Set the box's parent to the specified object
+end
+
+-- Function to loop through all objects in Workspace with the name "bed" and create ESP boxes
+local function createAllBedESP()
+    for _, object in ipairs(workspace:GetChildren()) do
+        if object.Name == "bed" then
+            local blanket = object:FindFirstChild("Blanket") -- Find the Blanket object inside the Bed
+            if blanket then
+                createESPBoxForObject(object, blanket.Color) -- Use the color of the Blanket for ESP
+            end
+            local legs = object:FindFirstChild("Legs") -- Find the Legs object inside the Bed
+            if legs then
+                createESPBoxForObject(legs, Color3.new(1, 1, 1)) -- Set a default color for the Legs
+            end
+        end
+    end
+end
+
+createAllBedESP()
+
 Tracer()
 InfJump()
 Aim()
